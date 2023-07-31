@@ -86,6 +86,7 @@ namespace ImageeServer
                     }
                 });
             });
+            MessageBox.Show("Server is up !");
         }
     }
 }
