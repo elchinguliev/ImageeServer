@@ -59,8 +59,8 @@ namespace ImageeServer
             {
                 Task.Run(() =>
                 {
-                    var ipAdress = IPAddress.Parse("192.168.1.106");
-                    var port = 80;
+                    var ipAdress = IPAddress.Parse("10.1.18.7");
+                    var port = 27001;
                     using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                     {
                         var ep = new IPEndPoint(ipAdress, port);
@@ -70,7 +70,7 @@ namespace ImageeServer
                         var client = socket.Accept();
                         Task.Run(() =>
                         {
-                            this.Dispatcher?.Invoke(() =>
+                            this.Dispatcher.Invoke(() =>
                             {
                                 var length = 0;
                                 var bytes = new byte[30000];
@@ -78,7 +78,7 @@ namespace ImageeServer
                                 {
                                     Thread.Sleep(1000);
                                     length = client.Receive(bytes);
-                                   imagePlace.Source = new BitmapImage(new Uri(LoadImage(bytes)));
+                                    imagePlace.Source = new BitmapImage(new Uri(LoadImage(bytes)));
                                     break;
                                 } while (true);
                             });
