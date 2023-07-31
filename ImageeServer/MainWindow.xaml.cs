@@ -59,12 +59,12 @@ namespace ImageeServer
             {
                 Task.Run(() =>
                 {
-                    var ipAdress = IPAddress.Parse("10.1.18.7");
+                    var ip = IPAddress.Parse("10.1.18.7");
                     var port = 27001;
                     using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                     {
-                        var ep = new IPEndPoint(ipAdress, port);
-                        socket.Bind(ep);
+                        var endPoint = new IPEndPoint(ip, port);
+                        socket.Bind(endPoint);
                         socket.Listen(10);
 
                         var client = socket.Accept();
