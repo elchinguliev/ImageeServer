@@ -59,34 +59,42 @@ namespace ImageeServer
             {
                 Task.Run(() =>
                 {
-                    var ip = IPAddress.Parse("10.1.18.7");
+                    var ip = IPAddress.Parse("192.168.1.106");
                     var port = 27001;
                     using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                     {
                         var endPoint = new IPEndPoint(ip, port);
                         socket.Bind(endPoint);
+                        MessageBox.Show("Server is up !!!");
                         socket.Listen(10);
-
-                        var client = socket.Accept();
-                        Task.Run(() =>
+                        while (true)
                         {
-                            this.Dispatcher.Invoke(() =>
+                        var client = socket.Accept();
+                            MessageBox.Show($"Client connected : {client.RemoteEndPoint}");
+
+                            var length = 0;
+                            var bytes = new byte[900000];
+                            App.Current.Dispatcher.Invoke((System.Action)delegate
                             {
-                                var length = 0;
-                                var bytes = new byte[30000];
-                                do
-                                {
-                                    Thread.Sleep(1000);
+
+                            do
+                            {
+                             
                                     length = client.Receive(bytes);
                                     imagePlace.Source = new BitmapImage(new Uri(LoadImage(bytes)));
                                     break;
-                                } while (true);
+                                } while (length>0);
+                        
                             });
-                        });
+                  
+
+                        }
                     }
                 });
             });
-            MessageBox.Show("Server is up !!!");
+
+         
+            
         }
     }
 }
